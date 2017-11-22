@@ -17,6 +17,5 @@ int main()
 
         for(i=0;i<k;i++) cout<<b[i]<< " ";
         //cout<< "\n";
-    //}
     return 0;
 }
