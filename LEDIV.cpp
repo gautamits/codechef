@@ -1,30 +1,45 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <math.h>
+#include <stdlib.h>
+
+
 using namespace std;
-int main()
-    {
-    long int t,n;
-    cin>>t;
-    while(t--)
-    {
-        cin>>n;
-        long int arr[n];
-        int flag=1;
-        for(long int i=0;i<n;i++) cin>>arr[i];
-        long int min=arr[0];
-        for(long int i=1;i<n;i++) 
-            if(arr[i] < min) 
-                min=arr[i];
-        for(int i=0;i<n;i++){
-            if(arr[i] % min )
-            {
-                flag=0;
-                break;
+
+int gcd(int a, int b){
+    return b==0?a:gcd(b, a%b);
+}
+
+int main(){
+    int t;
+    cin >>t;
+    while(t--){
+        int n, found = 0;
+        cin >> n;
+        int arr[n];
+        for(int i = 0; i < n; i++) cin >> arr[i];
+
+
+        //take gcd two at a time
+        if(n == 1 && arr[0] == 1){cout << -1 << endl; found =1;}
+        int first = arr[0], tmp_first = arr[0];
+        for(int i=1; i < n && !found; i++){
+            tmp_first = gcd(first, arr[i]);
+            if(tmp_first != 1) first = tmp_first;
+            else{
+                cout << -1 <<endl;
+                found = 1;
             }
         }
-        if(flag==1 && min != 1) cout<<min;
-        else cout<<"-1";
-        cout<<endl;
-    }
-    return 0;
+
+        //find factor of last gcd obtianed
+        for(int i = 2; i <= sqrt(tmp_first) && (!found); i++){
+            if((tmp_first%i) == 0){
+                cout << i << endl;
+                found = 1; //factor was found
+            }
+        }
+        if(!found) cout << tmp_first <<endl;
     }
 
+    return 0;
+}
